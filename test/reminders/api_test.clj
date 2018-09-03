@@ -45,6 +45,14 @@
               :headers {"Content-Type" "application/json; charset=utf-8"}
               :body (generate-string {:deleted true})})))))
 
+(deftest auth-api-test
+  (testing "APIs with auth validation"
+    (let [_ (init-db!)]
+      (is (= (handler (mock/request :post "/reminders" {:description "get eggs" :scheduled_time "1535827167"}))
+             {:status 401
+              :headers {}
+              :body "Not authorized"})))))
+
 (deftest data-validation-api-test
   (testing "APIs with data validation"
     (let [_ (init-db!)

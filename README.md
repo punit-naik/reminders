@@ -23,10 +23,10 @@ lein test
 |              reminders.core |   92.16 |  100.00 |
 |    reminders.resources.core |   73.15 |   89.66 |
 | reminders.resources.db.core |   99.48 |  100.00 |
-|       reminders.routes.core |   57.31 |  100.00 |
-|             reminders.utils |   97.65 |  100.00 |
+|       reminders.routes.core |   57.80 |  100.00 |
+|             reminders.utils |   97.87 |  100.00 |
 |-----------------------------+---------+---------|
-|                   ALL FILES |   73.87 |   97.66 |
+|                   ALL FILES |   74.19 |   97.66 |
 |-----------------------------+---------+---------|
 ```
 

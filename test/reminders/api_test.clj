@@ -64,3 +64,13 @@
              {:status 400
               :headers {}
               :body "In: [:params :scheduled_time] val: \"a\" fails spec: :reminders.utils/scheduled_time at: [:params :scheduled_time] predicate: (fn [x] (re-matches #\"\\d+\" x))\n"})))))
+              
+(deftest login-api-test
+  (testing "APIs with login validation"
+    (let [_ (init-db!)
+          _ (handler (mock/request :post "/register-user" {:user-name "punit-naik" :password "test123"}))]
+      (is (= (handler (mock/request :post "/login" {:user-name "punit-naik" :password "test1234"}))
+             {:status 401
+              :headers {}
+              :body "credentials provided are either wrong or not provided at all"})))))              
+

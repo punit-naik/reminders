@@ -13,6 +13,13 @@
     (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm:SS")
     (java.util.Date. (* unix-timestamp 1000))))
 
+(defn with-http-error-response
+  "Throws an error and catches it, returning the http response passed as an argument"
+  [response]
+  (try
+    (throw (Exception. ""))
+    (catch Exception e response)))
+
 (defmacro with-exception-api
   "Wraps the code in an exception when there is an error in executing the API code"
   [api-fn success-status-code]
@@ -39,8 +46,9 @@
   [request api-fn]
   `(if (authenticated? ~request)
      (with-data-validation ~request ~api-fn)
-     {:status 401
-      :body "Not authorized"}))
+     (with-http-error-response
+       {:status 401
+        :body "Not authorized"})))
 
 ;; Request map spec
 
@@ -57,8 +65,9 @@
   [request api-fn]
   `(if (s/valid? ::request ~request)
      (~api-fn ~request)
-     {:status 400
-      :body (s/explain-str ::request ~request)}))
+     (with-http-error-response
+       {:status 400
+        :body (s/explain-str ::request ~request)})))
 
 ;; API Throttling
 
@@ -67,7 +76,7 @@
 ; 10 concurrent threads
 (defbulkhead my-bh {:concurrency 10})
 
-(defmacro throttler
+(defmacro with-throttler
   "Throttles functions based on per sond requests and concurrent requests"
   [api-fn]
   `(with-rate-limiter my-rl

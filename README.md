@@ -32,7 +32,7 @@ lein test
 
 ## API Docs
 
-[API Docs](doc/index.html)
+[API Docs](https://punit-naik.github.io/reminders/)
 
 ## License
 
